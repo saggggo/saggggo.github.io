@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja" translate="no">
+
+<head>
+    <title>Timer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        html {
+            font-size: 1vw;
+            color: white;
+            background-color: black;
+        }
+
+        #buttons {
+            position: absolute;
+            top: 2vh;
+            right: 2vw;
+        }
+
+        #container {}
+
+        #datetime {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #date {
+            font-size: 3rem;
+            display: block;
+        }
+
+        #time {
+            font-size: 10rem;
+            display: block;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="buttons">
+        <button
+            onclick="if (!document.fullscreenElement) document.body.requestFullscreen(); else document.exitFullscreen();">Full
+            Screen</button>
+    </div>
+    <div id="container">
+        <div id="datetime">
+            <div id="date"></div>
+            <div id="time"></div>
+        </div>
+    </div>
+</body>
+
+<script>
+    function format(num) {
+        return num >= 10 ? num.toString() : '0' + num
+    }
+    function formatWeekday(num) {
+        switch (num) {
+            case 0: return 'Sun'
+            case 1: return 'Mon'
+            case 2: return 'Tue'
+            case 3: return 'Wed'
+            case 4: return 'Thu'
+            case 5: return 'Fri'
+            case 6: return 'Sat'
+        }
+    }
+
+    function render() {
+        const d = new Date()
+        document.getElementById('date').innerHTML = `${format(d.getMonth() + 1)}/${format(d.getDate())}(${formatWeekday(d.getDay())})`
+        document.getElementById('time').innerHTML = `${format(d.getHours())}:${format(d.getMinutes())}:${format(d.getSeconds())}`
+    }
+    render()
+    setInterval(render, 1000)
+</script>
+
+</html>
