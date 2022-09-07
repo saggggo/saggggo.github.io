@@ -66,6 +66,9 @@
         function toggleVoice() {
             voiceOn = !voiceOn
             document.getElementById('jihou').textContent = `音声: ${voiceOn ? 'ON' : 'OFF'}`
+            if (voiceOn) {
+                speak('時報が有効になりました')
+            }
         }
     </script>
 </head>
