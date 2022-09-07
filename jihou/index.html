@@ -123,10 +123,15 @@
         const min = d.getMinutes()
         const hour = d.getHours()
         const displaytime = `${format(hour)}:${format(min)}:${format(sec)}`
-        const speaktime = `${hour}時${min}分${sec}秒`
         document.getElementById('time').innerHTML = displaytime
-        if (sec % 5 === 0) {
-            speak(speaktime)
+        if (sec === 0) {
+            if (min === 0) {
+                const speaktime = `${hour}時です`
+                speak(speaktime)
+            } else {
+                const speaktime = `${hour}時${min}分`
+                speak(speaktime)
+            }
         }
     }
     render()
