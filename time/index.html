@@ -34,7 +34,7 @@
             right: 2vw;
         }
 
-        @media screen and (max-width: 600px) {
+        @media screen and (max-width: 1024px) {
             #buttons {
                 font-size: 16px;
             }
@@ -82,8 +82,7 @@
 
 <body>
     <div id="buttons">
-        <button onclick="toggleFullScreen()">Full
-            Screen</button>
+        <button id="fullscreen" onclick="toggleFullScreen()">FullScreen</button>
     </div>
     <div id="container">
         <div id="datetime">
@@ -94,6 +93,10 @@
 </body>
 
 <script>
+    if (navigator.userAgent.includes('iPhone')) {
+        const button = document.getElementById('fullscreen')
+        button.parentElement.removeChild(button)
+    }
     function format(num) {
         return num >= 10 ? num.toString() : '0' + num
     }
