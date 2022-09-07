@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja" translate="no">
+<html lang="en" translate="no">
 
 <head>
-    <title>Timer</title>
+    <title>Fullscreen Clock</title>
+    <meta name="author" content="https://twitter.com/saggggo">
+    <meta name="description" content="It is a simple clock that can be displayed in full screen.">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -20,10 +22,20 @@
             font-family: 'Graduate', cursive;
         }
 
+        body {
+            background-color: black;
+        }
+
         #buttons {
             position: absolute;
             top: 2vh;
             right: 2vw;
+        }
+
+        @media screen and (max-width: 600px) {
+            #buttons {
+                font-size: 16px;
+            }
         }
 
         #container {}
@@ -47,12 +59,28 @@
         }
 
     </style>
+    <script>
+        function toggleFullScreen() {
+            if (document.fullscreenEnabled) {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen()
+                } else {
+                    document.body.requestFullscreen()
+                }
+            } else if (document.webkitFullscreenEnabled) {
+                if (document.webkitFullscreenElement) {
+                    document.webkitExitFullscreen()
+                } else {
+                    document.body.webkitRequestFullscreen()
+                }
+            }
+        }
+    </script>
 </head>
 
 <body>
     <div id="buttons">
-        <button
-            onclick="if (!document.fullscreenElement) document.body.requestFullscreen(); else document.exitFullscreen();">Full
+        <button onclick="toggleFullScreen()">Full
             Screen</button>
     </div>
     <div id="container">
