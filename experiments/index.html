@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja" translate="no">
+
+<head>
+    <title>時報</title>
+    <meta name="author" content="https://twitter.com/saggggo">
+    <meta name="description" content="音声で時刻を知らせてくれる時計です。">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+        integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Graduate&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7P188XQ0Y1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7P188XQ0Y1');
+    </script>
+    <style>
+        html {
+            font-size: 1vw;
+            color: white;
+            background-color: black;
+            font-family: 'Graduate', cursive;
+        }
+
+        body {
+            background-color: black;
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
+        #buttons {
+            position: absolute;
+            top: 2vh;
+            right: 2vw;
+        }
+
+        @media screen and (max-width: 1024px) {
+            #buttons {
+                font-size: 16px;
+            }
+        }
+
+        #container {}
+
+        #datetime {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #date {
+            font-size: 5rem;
+            display: block;
+        }
+
+        #time {
+            font-size: 20rem;
+            display: block;
+        }
+
+    </style>
+    <script>
+        let voiceOn = false
+        function toggleVoice() {
+            voiceOn = !voiceOn
+            document.getElementById('jihou').textContent = `音声: ${voiceOn ? 'ON' : 'OFF'}`
+            if (voiceOn) {
+                speak('時報が有効になりました')
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <video>
+        <div>
+            <p>aa</p>
+        </div>
+    </video>
+</body>
+
+<script>
+    function format(num) {
+        return num >= 10 ? num.toString() : '0' + num
+    }
+
+    function speak(text) {
+        if (voiceOn) {
+            const speech = window.speechSynthesis;
+            const content = new SpeechSynthesisUtterance(text)
+            const voiceList = window.speechSynthesis.getVoices().filter(x => x.lang == 'ja-JP')
+            if (voiceList.length > 0) {
+                content.lang = 'ja-JP'
+                content.voice = voiceList.find(x => x.default) || voiceList[0]
+                // speech.cancel()
+                speech.speak(content)
+            }
+        }
+    }
+
+    function formatWeekday(num) {
+        switch (num) {
+            case 0: return 'Sun'
+            case 1: return 'Mon'
+            case 2: return 'Tue'
+            case 3: return 'Wed'
+            case 4: return 'Thu'
+            case 5: return 'Fri'
+            case 6: return 'Sat'
+        }
+    }
+
+    function render() {
+        const d = new Date()
+        document.getElementById('date').innerHTML = `${format(d.getMonth() + 1)} /${format(d.getDate())}(${formatWeekday(d.getDay())})`
+        const sec = d.getSeconds()
+        const min = d.getMinutes()
+        const hour = d.getHours()
+        const displaytime = `${format(hour)}:${format(min)}:${format(sec)}`
+        document.getElementById('time').innerHTML = displaytime
+        if (sec === 0) {
+            if (min === 0) {
+                const speaktime = `${hour}時です`
+                speak(speaktime)
+            } else {
+                const speaktime = `${hour}時${min}分`
+                speak(speaktime)
+            }
+        }
+    }
+    render()
+    setInterval(render, 1000)
+</script>
+
+</html>
